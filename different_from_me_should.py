@@ -2,9 +2,8 @@ import re
 from pathlib import Path
 
 import markovify
-import praw
-
 import nltk
+import praw
 from nltk.tokenize import sent_tokenize
 
 POST_LIMIT_PER_SUB = 500
@@ -33,7 +32,8 @@ FORCED_SEEDS = {
 SENTENCE_GENERATION_ATTEMPTS = 1000
 
 # prerequisite
-nltk.download('punkt_tab')
+nltk.download("punkt_tab")
+
 
 # i will make this modular later :P
 def different_from_me_should():
@@ -62,7 +62,7 @@ def different_from_me_should():
             # start with my desired prefix, since I am unlikely to find it in
             # the wild.
             for seed_sentence in FORCED_SEEDS:
-                corpuses_by_subreddit_by_subject[subject][sub] += f'{seed_sentence} '
+                corpuses_by_subreddit_by_subject[subject][sub] += f"{seed_sentence} "
 
             sub_reader = reddit.subreddit(sub)
             # top posts from this subreddit this year
@@ -74,7 +74,9 @@ def different_from_me_should():
                 # POST_LIMIT_PER_SUB and will just settle for what I find.
                 if submission.selftext:
                     post_sentences = sent_tokenize(submission.selftext)
-                    corpuses_by_subreddit_by_subject[subject][sub] += " ".join(post_sentences)
+                    corpuses_by_subreddit_by_subject[subject][sub] += " ".join(
+                        post_sentences
+                    )
 
             sub_markovifier = markovify.Text(
                 corpuses_by_subreddit_by_subject[subject][sub], state_size=STATE_SIZE
@@ -82,9 +84,11 @@ def different_from_me_should():
 
             # Just generate sentences until we get one with desired start, if possible
             try:
-                 sentence = sub_markovifier.make_sentence_with_start(
-                    OTHER_PEOPLE_SHOULD, strict=False, tries=SENTENCE_GENERATION_ATTEMPTS
-                 )
+                sentence = sub_markovifier.make_sentence_with_start(
+                    OTHER_PEOPLE_SHOULD,
+                    strict=False,
+                    tries=SENTENCE_GENERATION_ATTEMPTS,
+                )
             except (KeyError, markovify.text.ParamError):
                 continue
             if sentence:
