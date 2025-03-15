@@ -92,7 +92,7 @@ def different_from_me_should():
             for _ in range(SENTENCE_GENERATION_ATTEMPTS):
                 try:
                     sentence = sub_markovifier.make_sentence_with_start(
-                        OTHER_PEOPLE_SHOULD, strict=True
+                        OTHER_PEOPLE_SHOULD, strict=False
                     )
                 except markovify.text.ParamError:
                     continue
