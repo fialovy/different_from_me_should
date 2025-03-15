@@ -47,7 +47,7 @@ def different_from_me_should():
     for subreddit_list_file in subreddit_lists_path.iterdir():
         subreddit_match = re.match(r"(.*)_subreddits.txt", subreddit_list_file.name)
         subreddit_subject = subreddit_match.group(1)
-        with open(subreddit_lists_path / subreddit_list_file.name, "r") as listfile:
+        with open(subreddit_lists_path / subreddit_list_file.name, "r", errors='replace') as listfile:
             subreddits = {subname.strip() for subname in listfile.readlines()}
             corpuses_by_subreddit_by_subject[subreddit_subject] = {
                 subreddit: "" for subreddit in subreddits
