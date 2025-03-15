@@ -137,7 +137,6 @@ dependencies = [
     { name = "markovify" },
     { name = "pathlib" },
     { name = "praw" },
-    { name = "requests" },
 ]
 
 [package.metadata]
@@ -147,7 +146,6 @@ requires-dist = [
     { name = "markovify", specifier = ">=0.9.4" },
     { name = "pathlib", specifier = ">=1.0.1" },
     { name = "praw", specifier = ">=7.8.1" },
-    { name = "requests", specifier = ">=2.32.3" },
 ]
 
 [[package]]
