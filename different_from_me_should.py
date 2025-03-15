@@ -4,7 +4,10 @@ from pathlib import Path
 import markovify
 import praw
 
-POST_LIMIT_PER_SUB = 100
+import nltk
+from nltk.tokenize import sent_tokenize
+
+POST_LIMIT_PER_SUB = 500
 MIN_POST_OR_COMMENT_LENGTH = 50
 # Per markovify docs (https://pypi.org/project/markovify/#basic-usage), state
 # size is "a number of words the probability of a next word depends on"
@@ -21,9 +24,17 @@ FORCED_SEEDS = {
     f"{OTHER_PEOPLE_SHOULD} get involved.\n",
     f"{OTHER_PEOPLE_SHOULD} be more aware of this.\n",
     f"{OTHER_PEOPLE_SHOULD} care about this.\n",
+    f"{OTHER_PEOPLE_SHOULD} just stop.\n",
+    f"{OTHER_PEOPLE_SHOULD} stop trying to do this.\n",
+    f"{OTHER_PEOPLE_SHOULD} stop doing this.\n",
+    f"{OTHER_PEOPLE_SHOULD} not have to worry about this.\n",
+    f"{OTHER_PEOPLE_SHOULD} decide for themselves.\n",
+    f"{OTHER_PEOPLE_SHOULD} figure out the best way to make this work.\n",
 }
 SENTENCE_GENERATION_ATTEMPTS = 1000
 
+# prerequisite
+nltk.download('punkt_tab')
 
 # i will make this modular later :P
 def different_from_me_should():
@@ -48,34 +59,42 @@ def different_from_me_should():
     for subject, corpuses_by_subreddit in corpuses_by_subreddit_by_subject.items():
         print(f"***** SUBJECT: {subject}")
         for sub in corpuses_by_subreddit:
+            # Seed the sub corpus with a huge number of 'arbitrary' sentences that
+            # start with my desired prefix, since I am unlikely to find it in
+            # the wild.
+            for seed_sentence in FORCED_SEEDS:
+                corpuses_by_subreddit[sub] += seed_sentence
             sub_reader = reddit.subreddit(sub)
             # top posts from this subreddit this year
             for submission in sub_reader.top(
                 time_filter="year", limit=POST_LIMIT_PER_SUB
             ):
-                # Seed the sub corpus with a huge number of 'neutral'-sounding sentences that
-                # start with my desired prefix
-                for seed_sentence in FORCED_SEEDS:
-                    corpuses_by_subreddit[sub] += seed_sentence
                 # Then add the submission (post) text to the corpus.
                 # I will not bother to keep trying until I reach
                 # POST_LIMIT_PER_SUB and will just settle for what I find.
                 if len(submission.selftext) >= MIN_POST_OR_COMMENT_LENGTH:
-                    newline_delimited_post_text = (
-                        submission.selftext.replace(".", "\n") + "\n"
-                    )
-                    corpuses_by_subreddit[sub] += newline_delimited_post_text
+                    post_sentences = sent_tokenize(submission.selftext)
+                    corpuses_by_subreddit[sub] += "\n".join(post_sentences) + "\n"
+                    #newline_delimited_post_text = (
+                    #    submission.selftext.replace(".", "\n") + "\n"
+                    #)
+                    #corpuses_by_subreddit[sub] += newline_delimited_post_text
 
             sub_markovifier = markovify.NewlineText(
                 corpuses_by_subreddit[sub], state_size=STATE_SIZE
             )
+            #for sentence in sub_markovifier.parsed_sentences:
+            #    #print(sentence)
+            #    if 'Other' in sentence:
+            #        import pdb; pdb.set_trace() 
+
             # Just generate sentences until we get one with desired start, if possible
             for _ in range(SENTENCE_GENERATION_ATTEMPTS):
                 try:
                     sentence = sub_markovifier.make_sentence_with_start(
-                        OTHER_PEOPLE_SHOULD, strict=False
+                        OTHER_PEOPLE_SHOULD, strict=True
                     )
-                except:
+                except markovify.text.ParamError:
                     continue
                 if sentence:
                     print(f"From {subject} subreddit r/{sub}: " + sentence + "\n")
