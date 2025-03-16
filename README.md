@@ -29,10 +29,12 @@ that start already! Even if I compiled a great deal of text from each subreddit,
 I might not find that very often in the wild.
 
 So, as a workaround, I decided to inject the gathered texts with some 'neutral' sounding
-sentences that _do_ start with "Other people should" that might reasonably follow
-a more characteristic or - if we're lucky - even prescriptive sentence that someone
-wrote in a post or comment. I placed such 'seed' sentences at random-but-reasonably-far-apart-from-each-other
-spots in the corpus before attempting to feed it to markovify.
+sentences that _do_ start with "Other people should." My hypothesis was that these
+seed sentences might still sometimes make reasonable sense in context next
+to a more characteristic or even prescriptive sentence that someone
+wrote in a post or comment - e.g., to re-affirm what they just said.
+I placed such 'seed' sentences at random spots in the corpus before attempting to
+feed the text to markovify.
 
 
 
