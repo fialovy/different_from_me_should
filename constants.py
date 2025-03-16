@@ -1,11 +1,11 @@
 POST_LIMIT_PER_SUB = 500
 
-# Per markovify docs (https://pypi.org/project/markovify/#basic-usage), state
-# size is "a number of words the probability of a next word depends on"
-# So, ideally, I would like it to match my prefix, which should ideally be quite short
 OTHER_PEOPLE_SHOULD = "Other people should"
 # OTHER_PEOPLE_SHOULD = "People different from me should"
 
+# Per markovify docs (https://pypi.org/project/markovify/#basic-usage), state
+# size is "a number of words the probability of a next word depends on"
+# So, ideally, I would like it to match my prefix, which should be quite short
 STATE_SIZE = len(OTHER_PEOPLE_SHOULD.split(" "))
 
 FORCED_SEED_SENTENCES = {
