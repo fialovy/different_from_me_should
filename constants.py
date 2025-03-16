@@ -11,33 +11,34 @@ OTHER_PEOPLE_SHOULD = "Other people should"
 STATE_SIZE = len(OTHER_PEOPLE_SHOULD.split(" "))
 
 FORCED_SEED_SENTENCES = {
-    f"{OTHER_PEOPLE_SHOULD} do this.",
-    f"{OTHER_PEOPLE_SHOULD} be kinder.",
-    f"{OTHER_PEOPLE_SHOULD} understand this.",
-    f"{OTHER_PEOPLE_SHOULD} work toward this.",
-    f"{OTHER_PEOPLE_SHOULD} notice this.",
-    f"{OTHER_PEOPLE_SHOULD} try this.",
-    f"{OTHER_PEOPLE_SHOULD} do better.",
-    f"{OTHER_PEOPLE_SHOULD} get involved.",
-    f"{OTHER_PEOPLE_SHOULD} be more aware of this.",
+    f"{OTHER_PEOPLE_SHOULD} be aware.",
+    f"{OTHER_PEOPLE_SHOULD} be aware of this.",
     f"{OTHER_PEOPLE_SHOULD} care about this.",
-    f"{OTHER_PEOPLE_SHOULD} just stop.",
-    f"{OTHER_PEOPLE_SHOULD} stop trying to do this.",
-    f"{OTHER_PEOPLE_SHOULD} stop doing this.",
-    f"{OTHER_PEOPLE_SHOULD} not have to worry about this.",
-    f"{OTHER_PEOPLE_SHOULD} decide for themselves.",
-    f"{OTHER_PEOPLE_SHOULD} figure out the best way to make this work.",
-    f"{OTHER_PEOPLE_SHOULD} take this to heart.",
-    f"{OTHER_PEOPLE_SHOULD} take this into consideration.",
     f"{OTHER_PEOPLE_SHOULD} consider this.",
-    f"{OTHER_PEOPLE_SHOULD} think about this.",
+    f"{OTHER_PEOPLE_SHOULD} envision this.",
+    f"{OTHER_PEOPLE_SHOULD} grok this.",
+    f"{OTHER_PEOPLE_SHOULD} hear this.",
+    f"{OTHER_PEOPLE_SHOULD} hear about this.",
+    f"{OTHER_PEOPLE_SHOULD} imagine this.",
     f"{OTHER_PEOPLE_SHOULD} keep this in mind.",
-    f"{OTHER_PEOPLE_SHOULD} shouldn't forget this.",
-    f"{OTHER_PEOPLE_SHOULD} should know this.",
-    f"{OTHER_PEOPLE_SHOULD} really need to know this.",
+    f"{OTHER_PEOPLE_SHOULD} know about this.",
+    f"{OTHER_PEOPLE_SHOULD} know.",
+    f"{OTHER_PEOPLE_SHOULD} know this.",
+    f"{OTHER_PEOPLE_SHOULD} not forget about this.",
+    f"{OTHER_PEOPLE_SHOULD} not forget this.",
+    f"{OTHER_PEOPLE_SHOULD} notice this.",
+    f"{OTHER_PEOPLE_SHOULD} see this.",
+    f"{OTHER_PEOPLE_SHOULD} take this into consideration.",
+    f"{OTHER_PEOPLE_SHOULD} take this to heart.",
+    f"{OTHER_PEOPLE_SHOULD} talk about this.",
+    f"{OTHER_PEOPLE_SHOULD} think about this.",
+    f"{OTHER_PEOPLE_SHOULD} try to remember this.",
+    f"{OTHER_PEOPLE_SHOULD} try to see this.",
+    f"{OTHER_PEOPLE_SHOULD} try to understand this.",
+    f"{OTHER_PEOPLE_SHOULD} understand this.",
 }
 
-SENTENCE_GENERATION_ATTEMPTS = 1000
+SENTENCE_GENERATION_ATTEMPTS = 2000
 
 MY_DUMB_INFINITE_LOOP_PREVENTER = SENTENCE_GENERATION_ATTEMPTS
 
