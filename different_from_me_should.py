@@ -1,20 +1,15 @@
-import re
 import random
+import re
 
 import markovify
 import praw
 import prawcore
 from nltk.tokenize import sent_tokenize
 
-from constants import (
-    SUBREDDITS_BY_SUBJECT,
-    POST_LIMIT_PER_SUB,
-    OTHER_PEOPLE_SHOULD,
-    STATE_SIZE,
-    FORCED_SEEDS,
-    SENTENCE_GENERATION_ATTEMPTS,
-    MY_DUMB_INFINITE_LOOP_PREVENTER,
-)
+from constants import (FORCED_SEEDS, MY_DUMB_INFINITE_LOOP_PREVENTER,
+                       OTHER_PEOPLE_SHOULD, POST_LIMIT_PER_SUB,
+                       SENTENCE_GENERATION_ATTEMPTS, STATE_SIZE,
+                       SUBREDDITS_BY_SUBJECT)
 
 
 # i will make this modular later or never :P
@@ -58,20 +53,25 @@ def different_from_me_should():
             there_just_isnt_enough = 0
             for seed_sentence in FORCED_SEEDS:
                 index_to_insert_at = random.randrange(num_blobs)
-                while index_to_insert_at in seen_neighbor_indices and there_just_isnt_enough < MY_DUMB_INFINITE_LOOP_PREVENTER:
+                while (
+                    index_to_insert_at in seen_neighbor_indices
+                    and there_just_isnt_enough < MY_DUMB_INFINITE_LOOP_PREVENTER
+                ):
                     there_just_isnt_enough += 1
                     index_to_insert_at = random.randrange(num_blobs)
                 # We don't want the seeds to end up too close together, so make a
                 # decent range of indices around the current insert point become
                 # off-limits. The negatives shouldn't do any harm here.
-                seen_neighbor_indices.update([*range(index_to_insert_at-25, index_to_insert_at),
-                    *range(index_to_insert_at, index_to_insert_at + 25)])
+                seen_neighbor_indices.update(
+                    [
+                        *range(index_to_insert_at - 25, index_to_insert_at),
+                        *range(index_to_insert_at, index_to_insert_at + 25),
+                    ]
+                )
                 all_gathered_text_blobs.insert(index_to_insert_at, seed_sentence)
-            
+
             sub_corpus = " ".join(all_gathered_text_blobs)
-            sub_markovifier = markovify.Text(
-                sub_corpus, state_size=STATE_SIZE
-            )
+            sub_markovifier = markovify.Text(sub_corpus, state_size=STATE_SIZE)
             # Just generate sentences until we get one with desired start, if possible
             try:
                 sentence = sub_markovifier.make_sentence_with_start(
