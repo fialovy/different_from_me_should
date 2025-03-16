@@ -1,2 +1,2 @@
-Given a corpus (hopefully) from a particular subreddit, how does a markov chain
-bot complete the sentence, "People different from me..."?
+Given a corpus of posts and comments from a particular subreddit, how does a markov chain
+complete a sentence like, "Other people should..."?
