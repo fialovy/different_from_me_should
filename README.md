@@ -52,7 +52,7 @@ rest of the sentence from was ever in a prescriptive context in the first place.
 
 ![Sample output](images/sample_output.png)
 
-Speaking as an agnostic, are the athiests okay? 🤣
+Speaking as an agnostic, are the atheists okay? 🤣
 
 (for the nth time, _this output does not reflect my own beliefs. It is shitty AI in
 air quotes; take it with a grain of salt._)
