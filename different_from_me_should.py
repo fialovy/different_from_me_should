@@ -49,7 +49,10 @@ class DifferentFromMeShould:
         )
 
         if not success:
-            return f"Can't generate a sentence from r/{subreddit}: error was {new_sentence if new_sentence else 'unknown/probably just us not meeting markovify requirements.'}"
+            return (
+                f"Can't generate a sentence from r/{subreddit}: error was "
+                f"{new_sentence if new_sentence else 'unknown/probably just us not meeting markovify requirements.'}"
+            )
         return new_sentence
 
     def obtain_existing_subreddit_sentences_from_subreddit(
