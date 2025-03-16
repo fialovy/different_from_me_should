@@ -6,8 +6,10 @@ import praw
 import prawcore
 from nltk.tokenize import sent_tokenize
 
-from constants import (FORCED_SEEDS, MY_DUMB_INFINITE_LOOP_PREVENTER,
+from constants import (FORCED_SEED_SENTENCES, MAX_COMMENTS_PER_POST,
+                       MIN_COMMENT_LENGTH, MY_DUMB_INFINITE_LOOP_PREVENTER,
                        OTHER_PEOPLE_SHOULD, POST_LIMIT_PER_SUB,
+                       SEED_INSERTION_WINDOW_SIZE,
                        SENTENCE_GENERATION_ATTEMPTS, STATE_SIZE,
                        SUBREDDITS_BY_SUBJECT)
 
@@ -20,13 +22,12 @@ def different_from_me_should():
     # See https://praw.readthedocs.io/en/stable/getting_started/configuration/prawini.html
     reddit = praw.Reddit("dfm_bot")
     for subject, subreddits in SUBREDDITS_BY_SUBJECT.items():
-        print(f"***** SUBJECT: {subject}")
-        for sub in subreddits:
+        for subreddit in subreddits:
             # Populate a corpus based on the body texts of this year's top posts
             # in the subreddit
             all_gathered_text_blobs = []
             try:
-                sub_reader = reddit.subreddit(sub)
+                sub_reader = reddit.subreddit(subreddit)
                 # top posts from this subreddit this year
                 for submission in sub_reader.top(
                     time_filter="year", limit=POST_LIMIT_PER_SUB
@@ -37,21 +38,33 @@ def different_from_me_should():
                     if submission.selftext:
                         post_sentences = sent_tokenize(submission.selftext)
                         all_gathered_text_blobs.extend(post_sentences)
+                        # Ideally we can add a couple of top comments and replies as well
+                        # See https://praw.readthedocs.io/en/stable/tutorials/comments.html
+                        submission.comment_sort = "top"
+                        for comment in submission.comments.list()[
+                            :MAX_COMMENTS_PER_POST
+                        ]:
+                            if len(comment.body) >= MIN_COMMENT_LENGTH:
+                                comment_sentences = sent_tokenize(comment.body)
+                                all_gathered_text_blobs.extend(comment_sentences)
             except prawcore.exceptions.Forbidden:
-                print(f"Got 403 when trying to access r/{sub}; skipping")
+                print(f"Got 403 when trying to access r/{subreddit}; skipping")
                 continue
 
-            # For each sub, we will also inject a number of 'arbitrary' sentences that
+            if not all_gathered_text_blobs:
+                print(f"Can't gather enough text from r/{subreddit}; skipping")
+
+            # For each subreddit, we will also inject a number of 'arbitrary' sentences that
             # start with the desired prefix, since it is unlikely to be found directly
             # in the wild but markovify requires it to exist in the text.
             # The hope is that these sound generic enough to follow a
             # more telling statement that might be found in the posts and comments
-            # (e.g., <some sentence characteristic of the sub> "Other people should
+            # (e.g., <some sentence characteristic of the subreddit> "Other people should
             # take this to heart.")
             num_blobs = len(all_gathered_text_blobs)
             seen_neighbor_indices = set()
             there_just_isnt_enough = 0
-            for seed_sentence in FORCED_SEEDS:
+            for seed_sentence in FORCED_SEED_SENTENCES:
                 index_to_insert_at = random.randrange(num_blobs)
                 while (
                     index_to_insert_at in seen_neighbor_indices
@@ -64,17 +77,25 @@ def different_from_me_should():
                 # off-limits. The negatives shouldn't do any harm here.
                 seen_neighbor_indices.update(
                     [
-                        *range(index_to_insert_at - 25, index_to_insert_at),
-                        *range(index_to_insert_at, index_to_insert_at + 25),
+                        *range(
+                            index_to_insert_at - SEED_INSERTION_WINDOW_SIZE,
+                            index_to_insert_at,
+                        ),
+                        *range(
+                            index_to_insert_at,
+                            index_to_insert_at + SEED_INSERTION_WINDOW_SIZE,
+                        ),
                     ]
                 )
                 all_gathered_text_blobs.insert(index_to_insert_at, seed_sentence)
 
-            sub_corpus = " ".join(all_gathered_text_blobs)
-            sub_markovifier = markovify.Text(sub_corpus, state_size=STATE_SIZE)
+            subreddit_corpus = " ".join(all_gathered_text_blobs)
+            subreddit_markovifier = markovify.Text(
+                subreddit_corpus, state_size=STATE_SIZE
+            )
             # Just generate sentences until we get one with desired start, if possible
             try:
-                sentence = sub_markovifier.make_sentence_with_start(
+                sentence = subreddit_markovifier.make_sentence_with_start(
                     OTHER_PEOPLE_SHOULD,
                     strict=False,
                     tries=SENTENCE_GENERATION_ATTEMPTS,
@@ -82,7 +103,7 @@ def different_from_me_should():
             except (KeyError, markovify.text.ParamError):
                 continue
             if sentence:
-                print(f"From {subject} subreddit r/{sub}: {sentence} \n")
+                print(f"From {subject} subreddit r/{subreddit}: {sentence} \n")
 
 
 if __name__ == "__main__":

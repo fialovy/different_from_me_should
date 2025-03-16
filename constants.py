@@ -4,11 +4,11 @@ POST_LIMIT_PER_SUB = 500
 # size is "a number of words the probability of a next word depends on"
 # So, ideally, I would like it to match my prefix, which should ideally be quite short
 OTHER_PEOPLE_SHOULD = "Other people should"
-#OTHER_PEOPLE_SHOULD = "People different from me should"
+# OTHER_PEOPLE_SHOULD = "People different from me should"
 
 STATE_SIZE = len(OTHER_PEOPLE_SHOULD.split(" "))
 
-FORCED_SEEDS = {
+FORCED_SEED_SENTENCES = {
     f"{OTHER_PEOPLE_SHOULD} do this.",
     f"{OTHER_PEOPLE_SHOULD} be kinder.",
     f"{OTHER_PEOPLE_SHOULD} understand this.",
@@ -38,6 +38,12 @@ FORCED_SEEDS = {
 SENTENCE_GENERATION_ATTEMPTS = 1000
 
 MY_DUMB_INFINITE_LOOP_PREVENTER = SENTENCE_GENERATION_ATTEMPTS
+
+SEED_INSERTION_WINDOW_SIZE = 25
+
+MAX_COMMENTS_PER_POST = 3
+
+MIN_COMMENT_LENGTH = 500  # in characters
 
 SUBREDDITS_BY_SUBJECT = {
     "identity": {
