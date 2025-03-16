@@ -16,17 +16,24 @@ FORCED_SEED_SENTENCES = {
     f"{OTHER_PEOPLE_SHOULD} care about this.",
     f"{OTHER_PEOPLE_SHOULD} consider this.",
     f"{OTHER_PEOPLE_SHOULD} envision this.",
+    f"{OTHER_PEOPLE_SHOULD} gain some awareness of this.",
+    f"{OTHER_PEOPLE_SHOULD} get this.",
     f"{OTHER_PEOPLE_SHOULD} grok this.",
+    f"{OTHER_PEOPLE_SHOULD} have some awareness of this.",
     f"{OTHER_PEOPLE_SHOULD} hear this.",
     f"{OTHER_PEOPLE_SHOULD} hear about this.",
     f"{OTHER_PEOPLE_SHOULD} imagine this.",
     f"{OTHER_PEOPLE_SHOULD} keep this in mind.",
     f"{OTHER_PEOPLE_SHOULD} know about this.",
+    f"{OTHER_PEOPLE_SHOULD} know more about this.",
     f"{OTHER_PEOPLE_SHOULD} know.",
+    f"{OTHER_PEOPLE_SHOULD} know of this.",
     f"{OTHER_PEOPLE_SHOULD} know this.",
+    f"{OTHER_PEOPLE_SHOULD} mull this over.",
     f"{OTHER_PEOPLE_SHOULD} not forget about this.",
     f"{OTHER_PEOPLE_SHOULD} not forget this.",
     f"{OTHER_PEOPLE_SHOULD} notice this.",
+    f"{OTHER_PEOPLE_SHOULD} ponder this.",
     f"{OTHER_PEOPLE_SHOULD} see this.",
     f"{OTHER_PEOPLE_SHOULD} take this into consideration.",
     f"{OTHER_PEOPLE_SHOULD} take this to heart.",
@@ -38,7 +45,7 @@ FORCED_SEED_SENTENCES = {
     f"{OTHER_PEOPLE_SHOULD} understand this.",
 }
 
-SENTENCE_GENERATION_ATTEMPTS = 2000
+SENTENCE_GENERATION_ATTEMPTS = 5000
 
 MY_DUMB_INFINITE_LOOP_PREVENTER = SENTENCE_GENERATION_ATTEMPTS
 

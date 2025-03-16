@@ -10,8 +10,8 @@ or identity-related) to 'say the quiet part out loud' by finishing the simple se
 kinds of people want the best for others vs. mind their own business vs. wish ill
 upon others more often?
 
-(I was originally going to call it "People who are different from me should...", hence
-the repository name.)
+(I was originally going to prompt it with "People who are different from me should...", hence
+the repository name. But that larger state size was harder for markovify to work with.)
 
 
 ### How?
@@ -22,10 +22,29 @@ to easily access the Reddit API at the free tier and
 to eventually process the text I obtained from various subreddits, with a little
 cleanup courtesy of [nltk](https://www.nltk.org/api/nltk.tokenize.sent_tokenize.html).
 
+More specifically, I wanted to use markovify's `make_sentence_with_start` method with
+my introductory phrase, "Other people should...". But there was a problem:
+`make_sentence_with_start` requires your corpus to actually contain sentences with
+that start already! Even if I compiled a great deal of text from each subreddit,
+I might not find that very often in the wild.
+
+So, as a workaround, I decided to inject the gathered texts with some 'neutral' sounding
+sentences that _do_ start with "Other people should" that might reasonably follow
+a more characteristic or - if we're lucky - even prescriptive sentence that someone
+wrote in a post or comment. I placed such 'seed' sentences at random-but-reasonably-far-apart-from-each-other
+spots in the corpus before attempting to feed it to markovify.
+
+
 
 ### Is it even meaningful?
 
 🌚
+
+Given how the whole state size thing works, probably not. Even when markovify successfully
+constructs something with the desired prefix, we have no way of knowing whether the
+'real', non-seeded text it builds the rest of the sentence from was ever in a
+prescriptive context in the first place.
+
 
 ### Silly results that made me laugh and/or worry
 < add screenshotz here >

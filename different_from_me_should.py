@@ -158,7 +158,8 @@ def run_generate_new_sentence_for_all_subreddits_by_subject():
             sentence = sentence_generator.generate_new_sentence_from_subreddit(
                 subreddit, include_comments=DEFAULT_INCLUDE_COMMENTS
             )
-            print(f"From {subject} subreddit r/{subreddit}: {sentence} \n")
+            if sentence.startswith(OTHER_PEOPLE_SHOULD):
+                print(f"From {subject} subreddit r/{subreddit}: {sentence} \n")
 
 
 if __name__ == "__main__":
