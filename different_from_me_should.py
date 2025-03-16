@@ -40,6 +40,7 @@ def different_from_me_should():
                         all_gathered_text_blobs.extend(post_sentences)
                         # Ideally we can add a couple of top comments and replies as well
                         # See https://praw.readthedocs.io/en/stable/tutorials/comments.html
+                        # TODO: UNTIL max, not UP TO max
                         submission.comment_sort = "top"
                         for comment in submission.comments.list()[
                             :MAX_COMMENTS_PER_POST
