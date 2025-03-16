@@ -42,11 +42,17 @@ feed the text to markovify.
 
 🌚
 
-Given how the whole state size thing works, probably not. Even when markovify successfully
-constructs something with the desired prefix, we have no way of knowing whether the
-'real', non-seeded text it builds the rest of the sentence from was ever in a
-prescriptive context in the first place.
+Given how the whole state size thing [works](https://healeycodes.com/generating-text-with-markov-chains),
+probably not. Even when markovify successfully constructs something with the desired
+prefix, we have no way of knowing whether the 'real', non-seeded text it builds the
+rest of the sentence from was ever in a prescriptive context in the first place.
 
 
-### Silly results that made me laugh and/or worry
-< add screenshotz here >
+### Whatever; these results still made me laugh and/or worry
+
+![Sample output](images/sample_output.png)
+
+Speaking as an agnostic, are the athiests okay? 🤣
+
+(for the nth time, _this output does not reflect my own beliefs. It is shitty AI; take
+it with a grain of salt._)
