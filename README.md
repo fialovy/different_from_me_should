@@ -54,5 +54,5 @@ rest of the sentence from was ever in a prescriptive context in the first place.
 
 Speaking as an agnostic, are the atheists okay? 🤣
 
-(for the nth time, _this output does not reflect my own beliefs. It is shitty AI in
+(for the nth time, _this output does not reflect my own beliefs or even those of others. It is shitty AI in
 air quotes; take it with a grain of salt._)
